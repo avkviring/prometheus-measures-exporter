@@ -1,11 +1,11 @@
 use prometheus::core::Collector;
 use prometheus::Registry;
 
-use crate::{ENABLE_PROMETHEUS, MeasureBuilder};
+use crate::{MeasureBuilder, ENABLE_PROMETHEUS};
 
 pub fn create_and_register_measurer<T: 'static, OPTS>(registry: &Registry, opts: OPTS) -> T
-    where
-        T: Collector + MeasureBuilder<OPTS> + Clone,
+where
+    T: Collector + MeasureBuilder<OPTS> + Clone,
 {
     let measurer: T = MeasureBuilder::<OPTS>::build(opts);
     if *ENABLE_PROMETHEUS.lock().unwrap() {
@@ -21,11 +21,11 @@ pub fn create_and_register_measurer<T: 'static, OPTS>(registry: &Registry, opts:
 
 #[cfg(test)]
 mod test {
-    use prometheus::{IntCounter, Opts, Registry};
     use prometheus::proto::MetricFamily;
+    use prometheus::{IntCounter, Opts, Registry};
 
-    use crate::ENABLE_PROMETHEUS;
     use crate::measurer::create_and_register_measurer;
+    use crate::ENABLE_PROMETHEUS;
 
     #[test]
     pub fn test() {
