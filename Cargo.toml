@@ -1,11 +1,15 @@
 [package]
-name = ""
+name = "prometheus-measures-exporter"
 version = "999.999.999"
 edition = "2021"
 authors = ["Kviring A.V. <alex@kviring.com>"]
 license = "Apache-2.0"
-description = ""
-repository = ""
+description = "Prometheus exporters with measures helpers"
+repository = "https://github.com/cheetah-game-platform/prometheus-measures-exporter"
 
 [dependencies]
-
+prometheus = "0.13.0"
+hyper = { version = "0.14.18", features = ["full"] }
+lazy_static = "1.4.0"
+tracing = { version = "0.1.31" }
+tokio = { version = "1.17.0", features = ["full"] }
