@@ -9,9 +9,6 @@ use crate::{MeasureBuilder, ENABLE_PROMETHEUS};
 pub type IntCounterMeasurersByLabel<K> = MeasurersByLabel<K, IntCounter, Opts>;
 pub type HistogramMeasurersByLabel<K> = MeasurersByLabel<K, Histogram, HistogramOpts>;
 
-///
-/// Доступ к prometheus измерителям по набору меток
-///
 pub struct MeasurersByLabel<K, T, OPTS>
 where
     T: Collector,

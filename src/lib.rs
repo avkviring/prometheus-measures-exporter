@@ -15,7 +15,7 @@ lazy_static! {
     pub(crate) static ref ENABLE_PROMETHEUS: Mutex<bool> = Mutex::new(false);
 }
 
-pub fn setup_prometheus() {
+pub fn start_prometheus_exporter() {
     *ENABLE_PROMETHEUS.lock().unwrap() = true;
     tokio::spawn(async move {
         tracing::info!("starting prometheus exporter");
