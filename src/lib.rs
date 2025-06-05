@@ -1,12 +1,12 @@
+use hyper::header::CONTENT_TYPE;
 use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Request, Response, Server};
-use std::convert::Infallible;
-use std::net::SocketAddr;
-use std::sync::Mutex;
-
 use lazy_static::lazy_static;
 use prometheus::core::{Atomic, GenericGauge};
 use prometheus::{Encoder, Histogram, HistogramOpts, IntCounter, Opts, TextEncoder};
+use std::convert::Infallible;
+use std::net::SocketAddr;
+use std::sync::Mutex;
 
 pub mod measurer;
 pub mod measurers_by_label;
@@ -34,7 +34,11 @@ async fn metrics(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let mut buffer = Vec::new();
     encoder.encode(&metric_families, &mut buffer).unwrap();
     let output = String::from_utf8(buffer.clone()).unwrap();
-    Ok(Response::new(output.into()))
+    let mut response = Response::new(output.into());
+    response
+        .headers_mut()
+        .append(CONTENT_TYPE, encoder.format_type().parse().unwrap());
+    Ok(response)
 }
 
 pub trait MeasureBuilder<OPTS> {
